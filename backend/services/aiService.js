@@ -1,8 +1,52 @@
 const Groq = require('groq-sdk');
 
 const generateCategoryInsights = async (category, products) => {
-    // Disabled during background sync due to 100k token limits.
-    return { insights: {}, productClones: [] };
+    const apiKey = process.env.groq_api_key;
+    if (!apiKey) return { insights: { categoryPivot: "Unavailable" }, productClones: [] };
+    const groq = new Groq({ apiKey });
+
+    // Only process Top 5 products to strictly conserve API Tokens
+    const top5 = products.slice(0, 5);
+    const compactList = top5.map((p, i) => `[ID:${i}] ${p.name}: ${p.tagline}`).join('\n');
+    
+    const prompt = `You are a startup analyst. Analyze this category: "${category}".
+Based on these top products:
+${compactList}
+Give a 1-sentence 'categoryPivot' strategy, and a 1-sentence 'cloneStrategy' explaining core mechanics for each product ID.
+Return ONLY strict JSON matching this structure:
+{
+  "categoryPivot": "String",
+  "productClones": [ { "id": 0, "cloneStrategy": "String" } ]
+}`;
+
+    try {
+        const completion = await groq.chat.completions.create({
+            messages: [{ role: "user", content: prompt }], 
+            model: "llama-3.1-8b-instant",
+            temperature: 0.1
+        });
+        
+        let jsonRaw = completion.choices[0]?.message?.content || "{}";
+        const rawMatch = jsonRaw.match(/\{[\s\S]*\}/);
+        jsonRaw = rawMatch ? rawMatch[0] : jsonRaw.replace(/```json/g, '').replace(/```/g, '').trim();
+        
+        const data = JSON.parse(jsonRaw);
+        
+        const productClones = data.productClones || [];
+        const resultClones = top5.map((p, i) => {
+             const match = productClones.find(c => c.id === i);
+             return { name: p.name, cloneStrategy: match?.cloneStrategy || "Core mechanics handled dynamically." };
+        });
+        
+        return {
+            insights: { categoryPivot: data.categoryPivot || "Trending Custom Category" },
+            productClones: resultClones
+        };
+        
+    } catch (e) {
+        console.error("Batch category AI generation failed:", e.message);
+        return { insights: { categoryPivot: "Trend Analysis active" }, productClones: [] };
+    }
 };
 
 const fetchHackerNewsClones = async (idea, groq) => {

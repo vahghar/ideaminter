@@ -47,23 +47,24 @@ const processTrends = async () => {
     const topCategories = categories.sort((a,b) => b.score - a.score).slice(0, 15);
     console.log(`🔥 Top 15 Indie Categories identified (uniquely parsed ${assignedProducts.size} products).`);
     
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
     for (const cat of topCategories) {
-        console.log(`🧠 Skipping deep background sync for ${cat.name} to preserve 100k Token Limit for Search Engine!`);
+        console.log(`🧠 Synthesizing AI background insights for ${cat.name} (Waiting 2s for token limits)...`);
+        await sleep(2000); // 2 second breather for Groq limits
         
-        // Bypassing automated LLM calls specifically here so your rate limits aren't drained before you search
-        const aiData = { 
-            insights: { categoryPivot: "Trending Category." },
-            productClones: [] 
-        };
+        // Unleashing the 8B LLM mapped exactly to the 5 heaviest hitters here!
+        const aiData = await generateCategoryInsights(cat.name, cat.topProducts);
         
         const finalProducts = cat.topProducts.map(p => {
-            return {
-                name: p.name,
-                tagline: p.tagline,
-                url: p.url,
-                votesCount: p.votesCount,
-                cloneStrategy: "Deep dive details available dynamically via the top Search Bar."
-            };
+             const aiMatch = aiData.productClones?.find(c => c.name === p.name);
+             return {
+                 name: p.name,
+                 tagline: p.tagline,
+                 url: p.url,
+                 votesCount: p.votesCount,
+                 cloneStrategy: aiMatch?.cloneStrategy || "Deep dive details available dynamically via the top Search Bar."
+             };
         });
 
         const trendEntry = new Trend({
