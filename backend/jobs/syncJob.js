@@ -14,7 +14,7 @@ const startJob = () => {
             console.error("Cron Job Error:", e);
         }
     });
-    console.log("🕒 Cron Job Initialized (runs every 6h)");
+    console.log("🕒 Cron Job Initialized (runs once daily at midnight)");
 };
 
 module.exports = { startJob };
