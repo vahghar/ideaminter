@@ -1,0 +1,138 @@
+:root {
+  --bg-color: #fdfaf6;
+  --text-color: #1a1a1a;
+  --accent-color: #e63946;
+  --border-color: #1a1a1a;
+  --card-bg: #fff;
+  --hover-bg: #f1faee;
+}
+
+body {
+  font-family: monospace;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-row {
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.product-row:hover {
+  background-color: var(--hover-bg);
+}
+
+.row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.product-tagline {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 5px;
+}
+
+.votes {
+  background: var(--accent-color);
+  color: white;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+}
+
+.details {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed var(--border-color);
+  font-family: sans-serif;
+  font-size: 0.95rem;
+}
+
+.details h4 {
+  margin: 0 0 5px 0;
+  color: var(--accent-color);
+}
+
+.details ul {
+  margin: 0 0 15px 0;
+  padding-left: 20px;
+}
+
+.details a {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.idea-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  padding: 15px;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  box-shadow: 4px 4px 0px var(--border-color);
+}
+
+.idea-bar input {
+  flex-grow: 1;
+  padding: 12px 15px;
+  font-family: inherit;
+  font-size: 1.1rem;
+  border: 2px solid var(--border-color);
+  outline: none;
+}
+
+.idea-bar input:focus {
+  border-color: var(--accent-color);
+}
+
+.idea-bar button {
+  padding: 12px 25px;
+  font-family: inherit;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  background: var(--accent-color);
+  color: white;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.idea-bar button:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.idea-bar button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
