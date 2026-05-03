@@ -12,12 +12,13 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
-  padding: 20px;
+  padding: 0;
 }
 
 .container {
   max-width: 800px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 h1 {
@@ -135,4 +136,55 @@ h1 {
 .idea-bar button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Auth Styles */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 15px 20px;
+  gap: 15px;
+  background: var(--card-bg);
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.auth-btn-primary {
+  padding: 10px 20px;
+  font-family: inherit;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: var(--accent-color);
+  color: white;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  box-shadow: 3px 3px 0px var(--border-color);
+  transition: all 0.1s;
+}
+
+.auth-btn-primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.auth-btn-secondary {
+  padding: 10px 20px;
+  font-family: inherit;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: white;
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.auth-btn-secondary:hover {
+  background-color: var(--hover-bg);
+}
+
+.user-nav {
+  display: flex;
+  align-items: center;
 }

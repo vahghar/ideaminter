@@ -7,12 +7,14 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const { startJob } = require('./jobs/syncJob');
 const apiRoutes = require('./routes/api');
+const ideaRoutes = require('./routes/ideas');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.use('/api', apiRoutes);
+app.use('/api/ideas', ideaRoutes);
 
 const PORT = process.env.PORT || 4000;
 
